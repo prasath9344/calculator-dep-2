@@ -68,18 +68,20 @@ run: |
       else
         echo "security_group_exist=true" >> $GITHUB_ENV
         echo "security_group_id=$SECURITY_GROUP_ID" >> $GITHUB_ENV
+        if: env.security_group_exists == 'false'
+
 - name: Create Security Group
-id: create-security-group
-if: env.security_group_exists == 'false'
-run: |
-SECURITY_GROUP_ID=$(aws ec2 create-security-group \
---group-name ${{ env.SECURITY_GROUP_NAME }} \
---description "${{ env.SECURITY_GROUP_DESCRIPTION }}" \
---vpc-id ${{ env.VPC_ID }} \
---query 'GroupId' \
---output text)
-echo "Security Group ID is $SECURITY_GROUP_ID"
-echo "security_group_id=$SECURITY_GROUP_ID" >> $GITHUB_ENV
+  id: create-security-group
+  if: env.security_group_exists == 'false'
+  run: |
+    SECURITY_GROUP_ID=$(aws ec2 create-security-group \
+      --group-name MySecurityGroup \
+      --description "My security group" \
+      --vpc-id $VPC_ID \
+      --query 'GroupId' \
+      --output text)
+    echo "Security Group ID: $SECURITY_GROUP_ID"
+    echo "security_group_id=$SECURITY_GROUP_ID" >> $GITHUB_ENV
 
 - name: Authorize Security Group Ingress Rules (Avoid Duplicates)
 run: |
