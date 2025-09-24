@@ -34,11 +34,12 @@ steps:
 - name: Checkout
   uses: actions/checkout@v2
 - name: Configure AWS Credentials
-uses: aws-actions/configure-aws-credentials@v4
-with:
-audience: sts.amazonaws.com
-aws-region: ${{ env.AWS_REGION }}
-role-to-assume: arn:aws:iam::934484537298:role/ec_dep2
+  uses: aws-actions/configure-aws-credentials@v4
+  with:
+    audience: sts.amazonaws.com
+    aws-region: ${{ env.AWS_REGION }}
+    role-to-assume: arn:aws:iam::934484537298:role/ec_dep2
+
 - name: Check if Security Group Exists
 id: check-security-group
 run: |
