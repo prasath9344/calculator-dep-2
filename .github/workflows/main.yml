@@ -68,7 +68,6 @@ run: |
       else
         echo "security_group_exist=true" >> $GITHUB_ENV
         echo "security_group_id=$SECURITY_GROUP_ID" >> $GITHUB_ENV
-      fi
 - name: Create Security Group
 id: create-security-group
 if: env.security_group_exists == 'false'
